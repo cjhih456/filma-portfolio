@@ -1,6 +1,6 @@
 import type { GitRepoStats } from '../types/portfolio'
 
-export const GIT_AUTHOR = 'cjhih456'
+export const GIT_AUTHOR = '최인환'
 export const GIT_GENERATED_AT = '2026-07-06'
 
 export const gitRepos: GitRepoStats[] = [

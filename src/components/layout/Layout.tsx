@@ -34,7 +34,7 @@ export function Layout({ children }: LayoutProps) {
       </header>
       <main className="main-content">{children}</main>
       <footer className="site-footer">
-        <p>KAKAMU / FILMA — Full-Stack Portfolio · cjhih456 · 2026</p>
+        <p>KAKAMU / FILMA — Full-Stack Portfolio · 최인환 · 2026</p>
       </footer>
     </div>
   )
