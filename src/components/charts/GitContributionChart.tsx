@@ -19,7 +19,7 @@ const chartData = gitRepos.map((repo) => ({
 export function GitContributionChart() {
   return (
     <div className="chart-card">
-      <h4 className="chart-title">Git 기여도 — cjhih456</h4>
+      <h4 className="chart-title">Git 기여도 — 최인환</h4>
       <p className="chart-caption">3개 저장소 합산 1,008 커밋 (Frontend 98.7% · Backend 32.5% · ML 99.6%)</p>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={chartData} layout="vertical" margin={{ top: 8, right: 24, left: 8, bottom: 8 }}>
