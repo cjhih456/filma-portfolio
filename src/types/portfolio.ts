@@ -3,6 +3,8 @@ export type ChartId =
   | 'load-test-ramp'
   | 'api-latency'
   | 'git-contribution'
+  | 'embedding-multilabel-compare'
+  | 'embedding-ndcg'
 
 export type Metric = {
   label: string
@@ -26,6 +28,7 @@ export type StarStory = {
   metrics: Metric[]
   references?: Reference[]
   chartId?: ChartId
+  chartIds?: ChartId[]
 }
 
 export type ProjectHighlight = {

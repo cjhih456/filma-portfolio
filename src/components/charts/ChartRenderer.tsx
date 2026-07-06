@@ -1,5 +1,7 @@
 import type { ChartId } from '../../types/portfolio'
 import { ApiLatencyCompareChart } from './ApiLatencyCompareChart'
+import { EmbeddingMultilabelCompareChart } from './EmbeddingMultilabelCompareChart'
+import { EmbeddingNdgcChart } from './EmbeddingNdgcChart'
 import { GitContributionChart } from './GitContributionChart'
 import { LoadTestBeforeAfterChart } from './LoadTestBeforeAfterChart'
 import { LoadTestRampChart } from './LoadTestRampChart'
@@ -18,6 +20,10 @@ export function ChartRenderer({ chartId }: ChartRendererProps) {
       return <ApiLatencyCompareChart />
     case 'git-contribution':
       return <GitContributionChart />
+    case 'embedding-multilabel-compare':
+      return <EmbeddingMultilabelCompareChart />
+    case 'embedding-ndcg':
+      return <EmbeddingNdgcChart />
     default:
       return null
   }

@@ -491,6 +491,28 @@ code,
   color: var(--text-muted);
 }
 
+.embed-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.embed-metric-panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 0.75rem 0.25rem;
+}
+
+.embed-metric-panel-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 .star-chart {
   margin-top: 1.5rem;
 }
@@ -885,6 +907,14 @@ code,
   .charts-grid .chart-card:first-child,
   .charts-grid .chart-card:nth-child(2) {
     grid-column: span 1;
+  }
+
+  .embed-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .charts-grid .chart-card:has(.embed-metrics-grid) {
+    grid-column: 1 / -1;
   }
 
   .git-layout {

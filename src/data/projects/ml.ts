@@ -26,7 +26,7 @@ export const mlProject: ProjectProfile = {
       {
         title: '임베딩 모델 선정',
         description:
-          '4라운드 평가(PaCMAP→kNN→nDCG)로 Qwen3-0.6B 채택. genre F1 0.603 vs bge-m3 0.430.',
+          '4라운드 평가(PaCMAP→kNN→nDCG)로 Qwen3-0.6B 채택. genre samples F1 0.603 vs bge-m3 0.430, nDCG@50 0.149.',
       },
       {
         title: 'Outbox 비동기 ETL',
@@ -64,19 +64,18 @@ export const mlProject: ProjectProfile = {
         'PaCMAP/Silhouette 한계를 발견한 뒤, multi-label kNN(6K→11K)과 macro mAP·separation margin, nDCG@K retrieval까지 4라운드 평가 파이프라인을 구축했습니다.\n\nbge-m3 vs Qwen3 계열을 비교해 운영 VRAM·속도와 품질을 통합 판단했습니다.',
       metrics: [
         { label: '채택 모델', value: 'Qwen3-Embedding-0.6B' },
-        { label: 'genre F1', value: '0.603 vs bge 0.430' },
-        { label: 'mood F1', value: '0.637' },
         { label: 'VRAM', value: '1.5 GB (bge 2.5 GB)' },
-        { label: '평가 표본', value: '11,384편 · 173 labels' },
+        { label: '평가 표본', value: '11,384편 · 173 labels · k=107' },
       ],
+      chartIds: ['embedding-multilabel-compare', 'embedding-ndcg'],
       references: [
         {
-          label: 'portfolio_foundation.md',
-          path: 'kakamu_ml/docs/portfolio_foundation.md',
+          label: 'multilabel_metrics_report.md',
+          path: 'kakamu_ml/embed_test/result_data_3/multilabel_metrics_report.md',
         },
         {
-          label: 'embed_test/result_data_3',
-          path: 'kakamu_ml/embed_test/result_data_3',
+          label: 'ndcg_report.md',
+          path: 'kakamu_ml/embed_test/result_data_3/ndcg/ndcg_report.md',
         },
       ],
     },

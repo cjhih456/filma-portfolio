@@ -39,7 +39,13 @@ export function StarStoryCard({ story, index }: StarStoryCardProps) {
         </section>
       </div>
 
-      {story.chartId ? (
+      {story.chartIds?.map((id) => (
+        <div key={id} className="star-chart">
+          <ChartRenderer chartId={id} />
+        </div>
+      ))}
+
+      {!story.chartIds?.length && story.chartId ? (
         <div className="star-chart">
           <ChartRenderer chartId={story.chartId} />
         </div>
