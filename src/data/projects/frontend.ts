@@ -57,9 +57,9 @@ export const frontendProject: ProjectProfile = {
     {
       id: 'fe-dual-seeding',
       title: 'Dual Seeding으로 캐시 정합성 확보',
-      tags: ['TanStack Query', '캐시', '상태 최적화'],
+      tags: ['TanStack Query', '캐시', '낙관적 Update', '상태 최적화'],
       issue:
-        '무한 스크롤 피드와 검색(live/for-you)에서 게시물 상세로 진입할 때마다 동일 post를 다시 요청했습니다.\n\n좋아요·저장 optimistic update가 list 슬롯과 detail 슬롯 사이에서 어긋나 카운트·플래그 불일치가 반복되었고, 피드 UX를 빠르게 유지하면서 서버 상태와 클라이언트 캐시를 일치시킬 구조가 필요했습니다.',
+        '무한 스크롤 피드와 검색(live/for-you)에서 게시물 상세로 진입할 때마다 동일 post를 다시 요청했습니다.\n\n피드 좋아요·저장, 유저 팔로우 mutation 이후 list 단위 query cache를 invalidate하면 전체 목록이 리페치되며 불필요한 API 호출과 UI 깜빡임이 발생했습니다. 좋아요·저장 optimistic update가 list 슬롯과 detail 슬롯 사이에서 어긋나 카운트·플래그 불일치가 반복되었고, 피드 UX를 빠르게 유지하면서 서버 상태와 클라이언트 캐시를 일치시킬 구조가 필요했습니다.',
       solution:
         '도메인별 Query Key Factory를 계층화하고, 목록 응답을 detail 슬롯에 선적재하는 seedPostDetailCache·seedPostDetailCacheFromList를 post-infinite-cache 모듈로 추출했습니다.\n\nmutation 이후에는 patchPostInCaches로 infinite list와 detail 캐시를 동시에 패치합니다. 화면별 분기 없이 재사용 가능한 헬퍼로 optimistic 프리미티브(snapshot → patch → restore → invalidate) 흐름을 고정했습니다.',
       metrics: [
