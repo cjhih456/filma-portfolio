@@ -24,9 +24,9 @@ export const backendProject: ProjectProfile = {
       'Client → FastAPI (/api)\n  → Service (비즈니스 로직)\n    → PostgreSQL / Redis\n    → ML API (recommend, chat SSE, ingest)',
     highlights: [
       {
-        title: '400 → 900 VU 부하 개선',
+        title: '400 → 1,000 VU 부하 개선',
         description:
-          'DB 튜닝 → Telemetry 병목 분석 → aggregate·Redis 캐싱 → HPA 순으로 개선. avg 1,007ms → 496ms.',
+          'DB 튜닝 → Grafana 로그·trace 병목 분석 → aggregate·Redis 캐싱 → HPA 순으로 개선. avg 1,007ms → 530ms.',
       },
       {
         title: '피드 N+1 제거',
@@ -56,18 +56,18 @@ export const backendProject: ProjectProfile = {
   stories: [
     {
       id: 'be-load-test-journey',
-      title: '400 VU → 900 VU 부하 테스트 의사결정 여정',
+      title: '400 VU → 1,000 VU 부하 테스트 의사결정 여정',
       tags: ['부하테스트', 'Helm', 'OpenTelemetry', '성능'],
       issue:
         '동시접속 트래픽의 한계를 알기위해서는 데이터 기반으로 판단할 필요가 있었습니다.\n\n개선 전 ramp 400 VU에서 tail latency가 폭발했습니다. p99는 약 54초, GET /posts 평균 1,169ms였습니다.\n\nmedian(90ms)과 avg(1,007ms)의 격차가 DB·쿼리 병목을 시사했고, PostgreSQL 모니터링에서는 idle_in_transaction 세션과 AccessShareLock 대기가 동시에 급증하는 패턴이 확인되었습니다. N+1 쿼리로 트랜잭션이 장시간 열린 채 방치되고, 반복 SELECT가 테이블 락 경합을 키우는 구조였습니다.',
       solution:
-        '다음 네 단계 순서로 개선했습니다.\n\n① DB 튜닝\nHelm data-chart에서 PostgreSQL shared_buffers=5GB, work_mem=16MB, max_connections=350, idle_in_transaction_session_timeout=60s를 적용했습니다. PgBouncer transaction pool(maxClientConn=500)과 SQLAlchemy pool_size=50을 맞추고, 방치된 트랜잭션으로 커넥션 풀이 고갈되는 상황을 완화했습니다.\n\n② Telemetry\nOpenTelemetry span을 Grafana Tempo로 보내 get_posts trace에서 DB wait와 N+1 패턴을 식별했습니다. 반복 SELECT가 AccessShareLock 경합을 유발하고 있음을 확인했습니다.\n\n③ 쿼리·캐싱\nPostReadServiceNew 2단계 파이프라인, JSONB aggregate 물리 테이블, Redis post info MGET(TTL 3600s)을 도입해 쿼리 수를 줄이고 락·트랜잭션 점유 시간을 단축했습니다.\n\n④ Infra\nback-chart HPA(CPU 70%, max 3 replicas)로 스케일 여유를 확보한 뒤 900 VU까지 재검증했습니다.',
+        '다음 네 단계 순서로 개선했습니다.\n\n① DB 튜닝\nHelm data-chart에서 PostgreSQL shared_buffers=5GB, work_mem=16MB, max_connections=350, idle_in_transaction_session_timeout=60s를 적용했습니다. PgBouncer transaction pool(maxClientConn=500)과 SQLAlchemy pool_size=50을 맞추고, 방치된 트랜잭션으로 커넥션 풀이 고갈되는 상황을 완화했습니다.\n\n② Grafana 로그·trace 분석\nOpenTelemetry span을 Grafana Tempo로 보내 get_posts trace에서 DB wait와 N+1 패턴을 식별했습니다. Grafana 로그에서 반복 SELECT가 AccessShareLock 경합을 유발하고, ML 추천 호출 구간에서 timeout·재시도 패턴이 누적되는 것을 확인했습니다.\n\n③ 쿼리·캐싱\nPostReadServiceNew 2단계 파이프라인, JSONB aggregate 물리 테이블, Redis post info MGET(TTL 3600s)을 도입해 쿼리 수를 줄이고 락·트랜잭션 점유 시간을 단축했습니다.\n\n④ Infra\nback-chart HPA(CPU 70%, max 3 replicas)로 스케일 여유를 확보한 뒤 ML 포함 1,000 VU까지 재검증했습니다.',
       metrics: [
-        { label: 'VU', value: '400 → 900 (2.25×)' },
-        { label: 'Average', value: '1,007ms → 496ms (−51%)' },
-        { label: 'p99', value: '~54s → ~6s' },
-        { label: 'RPS', value: '100 → 298 (+198%)' },
-        { label: '실패율', value: '0.002% → 0.045%' },
+        { label: 'VU', value: '400 → 1,000 (2.5×)' },
+        { label: 'Average', value: '1,007ms → 530ms (−47%)' },
+        { label: 'p99', value: '~54s → ~4.2s' },
+        { label: 'RPS', value: '100 → 340 (+240%)' },
+        { label: '실패율', value: '0.002% → 0.053%' },
       ],
       references: [
         // {
@@ -75,8 +75,8 @@ export const backendProject: ProjectProfile = {
         //   path: 'kakamu_load_test/reports_before/16-ramp-400vu-preissued-token_stats.csv',
         // },
         // {
-        //   label: 'After: 900 VU stats',
-        //   path: 'kakamu_load_test/reports/06-ml-900vu_stats.csv',
+        //   label: 'After: 1,000 VU stats',
+        //   path: 'kakamu_load_test/reports/06-ml-1000vu_stats.csv',
         // },
         {
           label: 'Helm data-chart values',
