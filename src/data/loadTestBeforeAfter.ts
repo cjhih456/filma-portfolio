@@ -33,19 +33,19 @@ export const loadTestComparison = {
     searchLiveAvgMs: 957,
   },
   after: {
-    label: '900 VU (개선 후)',
-    source: 'reports/06-ml-900vu_stats.csv',
-    vu: 900,
+    label: '1,000 VU (개선 후)',
+    source: 'reports/06-ml-1000vu_stats.csv',
+    vu: 1000,
     phase: 'after' as const,
-    totalRequests: 357436,
-    failures: 160,
-    failureRatePct: 0.045,
-    medianMs: 120,
-    avgMs: 496,
-    p99Ms: 5900,
-    rps: 298,
-    postsAvgMs: 688,
-    searchLiveAvgMs: 687,
+    totalRequests: 408420,
+    failures: 217,
+    failureRatePct: 0.053,
+    medianMs: 210,
+    avgMs: 530,
+    p99Ms: 4200,
+    rps: 340,
+    postsAvgMs: 680,
+    searchLiveAvgMs: 660,
   },
 }
 
@@ -53,22 +53,22 @@ export const apiLatencyComparison = [
   {
     endpoint: 'GET /posts',
     beforeMs: 1169,
-    afterMs: 688,
+    afterMs: 680,
   },
   {
     endpoint: 'GET /search/live',
     beforeMs: 957,
-    afterMs: 687,
+    afterMs: 660,
   },
   {
     endpoint: 'GET /posts/[id]',
     beforeMs: 1142,
-    afterMs: 411,
+    afterMs: 480,
   },
   {
     endpoint: 'GET /posts/[id]/comments',
     beforeMs: 926,
-    afterMs: 433,
+    afterMs: 505,
   },
 ]
 

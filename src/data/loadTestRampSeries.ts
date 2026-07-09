@@ -50,10 +50,10 @@ export const loadTestRampSeries: LoadTestRampPoint[] = [
   },
   {
     vu: 1000,
-    phase: 'limit',
-    medianMs: 160,
-    avgMs: 492,
-    failureRatePct: 11.4,
+    phase: 'after',
+    medianMs: 210,
+    avgMs: 530,
+    failureRatePct: 0.053,
     source: 'reports/06-ml-1000vu_stats.csv',
   },
 ]

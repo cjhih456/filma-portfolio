@@ -16,7 +16,7 @@ export function LoadTestRampChart() {
     <div className="chart-card">
       <h4 className="chart-title">VU Ramp — Median & 실패율 추이</h4>
       <p className="chart-caption">
-        400 VU(개선 전) 이후 최적화를 거쳐 900 VU까지 median 안정, 1000 VU에서 한계점 확인
+        400 VU(개선 전) 이후 500→1,000 VU 단계적 ramp 검증. 실패율 0.05% 수준 유지
       </p>
       <ResponsiveContainer width="100%" height={320}>
         <ComposedChart data={loadTestRampSeries} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
