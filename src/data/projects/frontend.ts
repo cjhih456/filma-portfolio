@@ -133,7 +133,7 @@ export const frontendProject: ProjectProfile = {
       references: [
         {
           label: 'read-sse-stream.ts',
-          path: 'kakamu/packages/api/src/chat/read-sse-stream.ts',
+          path: 'kakamu/packages/api/src/sse/read-sse-stream.ts',
         },
       ],
     },
